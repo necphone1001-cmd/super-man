@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Dont Forget">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="format-detection" content="telephone=no">
+  <title>Dont Forget</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#6b0f1a">
+  <!-- iOS Home Screen icon (PNG recommended; SVG fallback for now) -->
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png">
+  <link rel="mask-icon" href="icons/icon.svg" color="#6b0f1a">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="title">Dont Forget</div>
+    <button id="installBtn" class="btn small" hidden>Add to Home Screen</button>
+  </header>
+
+  <main>
+    <section class="today">
+      <div class="date-row">
+        <button id="prevDay" class="icon-btn" aria-label="Previous Day">◀</button>
+        <h1 id="dateLabel">Today</h1>
+        <button id="nextDay" class="icon-btn" aria-label="Next Day">▶</button>
+      </div>
+      <div class="quick-add">
+        <input id="titleInput" type="text" placeholder="Add task or appointment" autocomplete="off">
+        <input id="timeInput" type="time">
+        <input id="reminderInput" type="number" min="0" step="5" placeholder="Rem (min)">
+        <select id="repeatSelect" title="Repeat">
+          <option value="none">No Repeat</option>
+          <option value="daily">Daily</option>
+          <option value="weekly">Weekly</option>
+        </select>
+        <input id="locationInput" type="text" placeholder="Location (optional)">
+        <button id="addBtn" class="btn">Add</button>
+      </div>
+      <div class="filters">
+        <button id="showAll" class="chip active">All</button>
+        <button id="showTasks" class="chip">Tasks</button>
+        <button id="showAppts" class="chip">Appointments</button>
+      </div>
+      <ul id="itemList" class="item-list"></ul>
+    </section>
+  </main>
+
+  <template id="itemTemplate">
+    <li class="item">
+      <div class="left">
+        <div class="time"></div>
+        <div class="title"></div>
+        <div class="location"></div>
+      </div>
+      <div class="right">
+        <button class="icon-btn nav" title="Navigate">🧭</button>
+        <button class="icon-btn calendar" title="Add to Apple Calendar (.ics)">📅</button>
+        <button class="icon-btn gcal" title="Add to Google Calendar">🅖</button>
+        <button class="icon-btn photo" title="Attach Photo">🖼️</button>
+        <input type="file" class="photo-input" accept="image/*" hidden>
+        <button class="icon-btn delete" title="Delete">🗑️</button>
+      </div>
+    </li>
+  </template>
+
+  <footer class="footer">
+    <button id="notifyBtn" class="btn secondary">Enable Reminders</button>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button id="exportDayIcsBtn" class="btn secondary">Export Day (.ics)</button>
+      <button id="openDayGCalBtn" class="btn secondary">Open Day in Google Cal</button>
+      <button id="exportBtn" class="btn secondary">Export JSON</button>
+      <button id="importBtn" class="btn secondary">Import JSON</button>
+      <input id="importFile" type="file" accept="application/json" hidden>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
