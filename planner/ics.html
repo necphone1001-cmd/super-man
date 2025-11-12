@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>ICS Maker – iPhone Ready</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Touch-first tweaks specific to this page */
+    :root { --gap: 12px; }
+    body { max-width: 720px; margin: 0 auto; padding: 16px; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
+    header { display: flex; align-items: center; gap: 10px; }
+    header img { width: 28px; height: 28px; }
+    h1 { font-size: 1.4rem; margin: 0.2rem 0 0.8rem; }
+    form { display: grid; grid-template-columns: 1fr; gap: var(--gap); }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+    label { font-weight: 600; }
+    input, textarea, select, button { font-size: 1rem; padding: 10px; border-radius: 10px; border: 1px solid #d0d0d0; }
+    textarea { min-height: 80px; }
+    button.primary { background: #0a84ff; color: white; border: none; }
+    button.secondary { background: #f2f2f2; }
+    .help { color: #555; font-size: 0.9rem; }
+    footer { margin-top: 1rem; color: #666; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="icons/icon.svg" alt="App icon" />
+    <h1>ICS Maker (iPhone)</h1>
+  </header>
+
+  <p class="help">Create a calendar event and download a .ics file you can open on your iPhone (Files, Mail, or AirDrop). Add to Home Screen to use as an app.</p>
+
+  <form id="icsForm">
+    <div>
+      <label for="title">Title</label>
+      <input id="title" name="title" type="text" placeholder="Team Sync" required />
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="startDate">Start date</label>
+        <input id="startDate" name="startDate" type="date" required />
+      </div>
+      <div>
+        <label for="startTime">Start time</label>
+        <input id="startTime" name="startTime" type="time" step="60" required />
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="endDate">End date</label>
+        <input id="endDate" name="endDate" type="date" />
+      </div>
+      <div>
+        <label for="endTime">End time</label>
+        <input id="endTime" name="endTime" type="time" step="60" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="duration">Or duration (minutes)</label>
+        <input id="duration" name="duration" type="number" min="1" inputmode="numeric" placeholder="60" />
+      </div>
+      <div>
+        <label for="reminder">Reminder (min before)</label>
+        <input id="reminder" name="reminder" type="number" min="0" inputmode="numeric" placeholder="30" />
+      </div>
+    </div>
+
+    <div>
+      <label for="location">Location</label>
+      <input id="location" name="location" type="text" placeholder="Room 12" />
+    </div>
+
+    <div>
+      <label for="desc">Notes</label>
+      <textarea id="desc" name="desc" placeholder="Agenda, details, etc."></textarea>
+    </div>
+
+    <div class="row">
+      <button class="secondary" type="reset">Clear</button>
+      <button class="primary" type="submit">Generate .ics</button>
+    </div>
+  </form>
+
+  <footer>
+    Tip: On iPhone Safari, use Share → Add to Home Screen to install this as an app.
+  </footer>
+
+  <script src="ics.js"></script>
+  <script>
+    // Set default start fields to next half hour for convenience
+    (function setDefaults(){
+      const now = new Date();
+      const plus15 = new Date(Math.ceil(now.getTime()/ (15*60*1000))*(15*60*1000));
+      const pad = n => String(n).padStart(2, '0');
+      const y = plus15.getFullYear();
+      const m = pad(plus15.getMonth()+1);
+      const d = pad(plus15.getDate());
+      const hh = pad(plus15.getHours());
+      const mm = pad(plus15.getMinutes());
+      document.getElementById('startDate').value = `${y}-${m}-${d}`;
+      document.getElementById('startTime').value = `${hh}:${mm}`;
+    })();
+  </script>
+</body>
+</html>
